@@ -1,0 +1,1 @@
+# swift-macro-compatibility-check
