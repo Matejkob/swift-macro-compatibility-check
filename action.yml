@@ -1,10 +1,12 @@
 name: 'Swift Macro Compatibility Check'
 description: 'Builds and optionally tests a Swift package with macros using all relevant swift-syntax versions'
+
 inputs:
   run-tests:
     description: 'Whether to run tests (true/false)'
     required: false
     default: 'false'
+
 runs:
   using: "composite"
   steps:
@@ -12,7 +14,16 @@ runs:
       shell: bash
       run: |
         # List of all relevant swift-syntax versions to test against
-        VERSIONS=("508.0.0" "509.0.0" "510.0.0" "511.0.0")
+        VERSIONS=(
+          "509.0.0"
+          "509.0.1"
+          "509.0.2"
+          "509.1.0"
+          "509.1.1"
+          "510.0.0"
+          "510.0.1"
+          "510.0.2"
+        )
         
         for version in "${VERSIONS[@]}"; do
           echo "Testing compatibility with swift-syntax version $version"
@@ -44,7 +55,7 @@ runs:
           fi
           
           echo "Compatibility check complete for swift-syntax $version"
-          echo "---------------------------------------------------"
+          echo "-------------------------------------------------------"
         done
         
         echo "All compatibility checks completed successfully"
