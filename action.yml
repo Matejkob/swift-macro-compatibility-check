@@ -7,6 +7,15 @@ inputs:
     required: false
     default: 'false'
 
+  major-versions-only:
+    description: 'Whether to test only against major versions (true/false)    required: false
+    default: 'false'
+
+  verbose:
+    description: 'Whether to use verbose output for Swift commands (true/false)'
+    required: false
+    default: 'false'
+
 runs:
   using: "composite"
   steps:
@@ -24,21 +33,40 @@ runs:
           "510.0.1"
           "510.0.2"
         )
+
+        # List of major swift-syntax versions
+        MAJOR_VERSIONS=(
+          "509.0.0"
+          "510.0.0"
+        )
+
+        # Choose which versions to use based on input
+        if [ "${{ inputs.major-versions-only }}" = "true" ]; then
+          VERSIONS=("${MAJOR_VERSIONS[@]}")
+        else
+          VERSIONS=("${ALL_VERSIONS[@]}")
+        fi
+        
+        # Set verbosity flag
+        VERBOSE_FLAG=""
+        if [ "${{ inputs.verbose }}" = "true" ]; then
+          VERBOSE_FLAG="-v"
+        fi
+
+        swift package resolve
         
         for version in "${VERSIONS[@]}"; do
           echo "Testing compatibility with swift-syntax version $version"
           
-          # Resolve dependencies
-          swift package resolve
           swift package resolve swift-syntax --version $version
           
           echo "Building package with swift-syntax $version"
-          if swift build -v; then
+          if swift build $VERBOSE_FLAG; then
             echo "Build succeeded for swift-syntax $version"
             
             if [ "${{ inputs.run-tests }}" = "true" ] && [ -d "Tests" ]; then
               echo "Running tests with swift-syntax $version"
-              if swift test -v; then
+              if swift test $VERBOSE_FLAG; then
                 echo "Tests passed for swift-syntax $version"
               else
                 echo "Tests failed for swift-syntax $version"
@@ -55,7 +83,7 @@ runs:
           fi
           
           echo "Compatibility check complete for swift-syntax $version"
-          echo "-------------------------------------------------------"
+          echo "---------------------------------------------------"
         done
         
         echo "All compatibility checks completed successfully"
