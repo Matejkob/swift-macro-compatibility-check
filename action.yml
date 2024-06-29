@@ -1,4 +1,5 @@
 name: 'Swift Macro Compatibility Check'
+
 description: 'Builds and optionally tests a Swift package with macros using all relevant swift-syntax versions'
 
 inputs:
@@ -8,22 +9,23 @@ inputs:
     default: 'false'
 
   major-versions-only:
-    description: 'Whether to test only against major versions (true/false)    required: false
+    description: 'Whether to test only against major versions (true/false)'
+    required: false
     default: 'false'
 
   verbose:
     description: 'Whether to use verbose output for Swift commands (true/false)'
     required: false
     default: 'false'
-
+    
 runs:
   using: "composite"
   steps:
     - name: Check Swift package compatibility
       shell: bash
       run: |
-        # List of all relevant swift-syntax versions to test against
-        VERSIONS=(
+        # List of all swift-syntax versions
+        ALL_VERSIONS=(
           "509.0.0"
           "509.0.1"
           "509.0.2"
@@ -33,13 +35,13 @@ runs:
           "510.0.1"
           "510.0.2"
         )
-
+        
         # List of major swift-syntax versions
         MAJOR_VERSIONS=(
           "509.0.0"
           "510.0.0"
         )
-
+        
         # Choose which versions to use based on input
         if [ "${{ inputs.major-versions-only }}" = "true" ]; then
           VERSIONS=("${MAJOR_VERSIONS[@]}")
@@ -57,14 +59,14 @@ runs:
         
         for version in "${VERSIONS[@]}"; do
           echo "Testing compatibility with swift-syntax version $version"
-          
+                    
           swift package resolve swift-syntax --version $version
           
           echo "Building package with swift-syntax $version"
           if swift build $VERBOSE_FLAG; then
             echo "Build succeeded for swift-syntax $version"
             
-            if [ "${{ inputs.run-tests }}" = "true" ] && [ -d "Tests" ]; then
+            if [ "${{ inputs.run-tests }}" = "true" ]; then
               echo "Running tests with swift-syntax $version"
               if swift test $VERBOSE_FLAG; then
                 echo "Tests passed for swift-syntax $version"
@@ -72,8 +74,6 @@ runs:
                 echo "Tests failed for swift-syntax $version"
                 exit 1
               fi
-            elif [ "${{ inputs.run-tests }}" = "true" ]; then
-              echo "Tests were requested, but no Tests directory found"
             else
               echo "Skipping tests as per configuration"
             fi
