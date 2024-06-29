@@ -1,29 +1,44 @@
 name: Swift Macro Compatibility Check
-description: Builds a Swift package with macros using a specific swift-syntax versions
+description: Builds and tests a Swift package with macros using all relevant swift-syntax versions
 
-inputs:
-  swift-syntax-version:
-    description: swift-syntax versions to test against
-    required: true
-    
 runs:
   using: "composite"
   steps:
-    - name: Resolve dependencies
+    - name: Check Swift package compatibility
       shell: bash
       run: |
-        swift package resolve
-        swift package resolve swift-syntax --version ${{ inputs.swift-syntax-version }}
-
-    - name: Build package
-      shell: bash
-      run: swift build -v
-
-    - name: Run tests
-      shell: bash
-      run: |
-        if [ -d "Tests" ]; then
-          swift test -v
-        else
-          echo "No tests found"
-        fi
+        # List of all relevant swift-syntax versions to test against
+        VERSIONS=("509.0.0" "510.0.0")
+        
+        for version in "${VERSIONS[@]}"; do
+          echo "Testing compatibility with swift-syntax version $version"
+          
+          # Resolve dependencies
+          swift package resolve
+          swift package resolve swift-syntax --version $version
+          
+          echo "Building package with swift-syntax $version"
+          if swift build -v; then
+            echo "Build succeeded for swift-syntax $version"
+            
+            if [ -d "Tests" ]; then
+              echo "Running tests with swift-syntax $version"
+              if swift test -v; then
+                echo "Tests passed for swift-syntax $version"
+              else
+                echo "Tests failed for swift-syntax $version"
+                exit 1
+              fi
+            else
+              echo "No tests found"
+            fi
+          else
+            echo "Build failed for swift-syntax $version"
+            exit 1
+          fi
+          
+          echo "Compatibility check complete for swift-syntax $version"
+          echo "---------------------------------------------------"
+        done
+        
+        echo "All compatibility checks completed successfully"
