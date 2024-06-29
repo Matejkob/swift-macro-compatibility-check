@@ -26,7 +26,7 @@ To use this action in your workflow, add the following step:
 
 ```yaml
 - name: Run Swift Macro Compatibility Check
-  uses: Matejkob/swift-macro-compatibility-check@v1.0.0
+  uses: Matejkob/swift-macro-compatibility-check@v1
 ```
 
 > [!IMPORTANT]
@@ -40,7 +40,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Run Swift Macro Compatibility Check
-        uses: Matejkob/swift-macro-compatibility-check@v1.0.0
+        uses: Matejkob/swift-macro-compatibility-check@v1
 ```
 
 ## Inputs
@@ -82,7 +82,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Run Swift Macro Compatibility Check
-        uses: Matejkob/swift-macro-compatibility-check@v1.0.0
+        uses: Matejkob/swift-macro-compatibility-check@v1
 ```
 
 ### With All Options
@@ -99,7 +99,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Run Swift Macro Compatibility Check
-        uses: Matejkob/swift-macro-compatibility-check@v1.0.0
+        uses: Matejkob/swift-macro-compatibility-check@v1
         with:
           run-tests: 'true'
           major-versions-only: 'false'
