@@ -87,3 +87,7 @@ runs:
         done
         
         echo "All compatibility checks completed successfully"
+
+branding:
+  icon: 'check-circle'
+  color: 'green'
