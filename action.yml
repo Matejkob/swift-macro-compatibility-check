@@ -24,6 +24,8 @@ runs:
     - name: Check Swift package compatibility
       shell: bash
       run: |
+        # Check compatibility of Swift package with multiple swift-syntax versions
+        
         # List of all swift-syntax versions
         ALL_VERSIONS=(
           "509.0.0"
