@@ -24,6 +24,8 @@ runs:
     - name: Check Swift package compatibility
       shell: bash
       run: |
+        # Check compatibility of Swift package with multiple swift-syntax versions
+        
         # List of all swift-syntax versions
         ALL_VERSIONS=(
           "509.0.0"
@@ -34,6 +36,7 @@ runs:
           "510.0.0"
           "510.0.1"
           "510.0.2"
+          "510.0.3"
           # Temporary solution since swift package resolve {package} --version 600.0.0-prerelease does not work
           "600.0.0-prerelease-2024-06-12"
         )
