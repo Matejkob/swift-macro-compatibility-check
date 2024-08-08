@@ -36,6 +36,7 @@ runs:
           "510.0.0"
           "510.0.1"
           "510.0.2"
+          "510.0.3"
         )
         
         # List of major swift-syntax versions
