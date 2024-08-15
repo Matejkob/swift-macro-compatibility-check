@@ -38,7 +38,7 @@ runs:
           "510.0.2"
           "510.0.3"
           # Temporary solution since swift package resolve {package} --version 600.0.0-prerelease does not work
-          "600.0.0-prerelease-2024-06-12"
+          "600.0.0-prerelease-2024-08-14"
         )
         
         # List of major swift-syntax versions
