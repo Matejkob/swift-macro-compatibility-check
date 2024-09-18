@@ -37,7 +37,7 @@ runs:
         fi
 
         # Execute the external script with the arguments
-        bash ./swift-macro-compatibility-check.sh $ARGS
+        bash ${{ github.action_path }}/swift-macro-compatibility-check.sh $ARGS
 
 branding:
   icon: 'check-circle'

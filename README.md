@@ -53,7 +53,7 @@ jobs:
 
 ## `swift-syntax` Versions
 
-The action tests against the following swift-syntax versions:
+The action tests against the following `swift-syntax` versions:
 
 - `509.0.0`
 - `509.0.1`
@@ -64,13 +64,32 @@ The action tests against the following swift-syntax versions:
 - `510.0.1`
 - `510.0.2`
 - `510.0.3`
-- `600.0.0` 
+- `600.0.0`
 
-When `major-versions-only` is set to `true`, only versions `509.0.0`, `510.0.0`, and `600.0.0` are tested
+When `major-versions-only` is set to `true`, only versions `509.0.0`, `510.0.0`, and `600.0.0` are tested.
+
+## Running the Script Locally
+
+If you'd like to run the compatibility check script locally without GitHub Actions, you can do so by executing the provided bash script [`swift-macro-compatibility-check.sh`](swift-macro-compatibility-check.sh) in your terminal.
+
+### Usage
+
+```bash
+./swift-macro-compatibility-check.sh [--run-tests] [--major-versions-only] [--verbose]
+```
+
+### Script Overview
+
+The script checks the compatibility of a Swift package with multiple versions of `swift-syntax`. It can be configured to run tests and provide verbose output. The script performs the following steps for each version of `swift-syntax`:
+
+1. Resolves package dependencies for the specific `swift-syntax` version.
+2. Builds the Swift package.
+3. Optionally runs tests.
+4. Outputs a summary indicating which versions succeeded and which failed.
 
 ## Examples
 
-### Basic Usage
+### Basic Usage in GitHub Actions
 
 ```yaml
 name: Swift Macro Compatibility
@@ -110,8 +129,8 @@ jobs:
 
 ## Contributing
 
-Contributions to improve the action are welcome. Please feel free to submit issues or pull requests.
+Contributions to improve the action or script are welcome. Please feel free to submit issues or pull requests.
 
 ## License
 
-This GitHub Action is released under the [MIT License](LICENSE).
+This GitHub Action and the associated script are released under the [MIT License](LICENSE).

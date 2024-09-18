@@ -8,6 +8,7 @@
 RUN_TESTS=false
 MAJOR_VERSIONS_ONLY=false
 VERBOSE=false
+FAILURE_OCCURRED=false
 
 # Parse command line arguments
 while [[ "$#" -gt 0 ]]; do
@@ -90,6 +91,7 @@ for version in "${VERSIONS[@]}"; do
   else
     echo -e "${RED}Failed to resolve swift-syntax version $version${NC}"
     FAILED_VERSIONS+=("$version (Resolve Failed)")
+    FAILURE_OCCURRED=true
     continue
   fi
 
@@ -107,6 +109,7 @@ for version in "${VERSIONS[@]}"; do
       else
         echo -e "${RED}Tests failed for swift-syntax $version${NC}"
         FAILED_VERSIONS+=("$version (Tests Failed)")
+        FAILURE_OCCURRED=true
       fi
     else
       echo -e "${YELLOW}Skipping tests as per configuration${NC}"
@@ -115,6 +118,7 @@ for version in "${VERSIONS[@]}"; do
   else
     echo -e "${RED}Build failed for swift-syntax $version${NC}"
     FAILED_VERSIONS+=("$version (Build Failed)")
+    FAILURE_OCCURRED=true
   fi
 
   # Conditional success/failure message
@@ -144,4 +148,9 @@ if [ ${#FAILED_VERSIONS[@]} -ne 0 ]; then
   done
 else
   echo -e "${GREEN}No versions failed${NC}"
+fi
+
+# Fail the script if any check failed
+if [ "$FAILURE_OCCURRED" = true ]; then
+  exit 1
 fi
