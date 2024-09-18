@@ -21,12 +21,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Set up environment
-      shell: bash
-      run: |
-        # Make sure the script is executable
-        chmod +x ./swift-macro-compatibility-check.sh
-
     - name: Run Swift Macro Compatibility Check Script
       shell: bash
       run: |
@@ -43,7 +37,7 @@ runs:
         fi
 
         # Execute the external script with the arguments
-        ./swift-macro-compatibility-check.sh $ARGS
+        bash ./swift-macro-compatibility-check.sh $ARGS
 
 branding:
   icon: 'check-circle'
