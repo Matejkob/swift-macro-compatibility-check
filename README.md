@@ -65,6 +65,7 @@ The action tests against the following `swift-syntax` versions:
 - `510.0.2`
 - `510.0.3`
 - `600.0.0`
+- `600.0.1`
 
 When `major-versions-only` is set to `true`, only versions `509.0.0`, `510.0.0`, and `600.0.0` are tested.
 
