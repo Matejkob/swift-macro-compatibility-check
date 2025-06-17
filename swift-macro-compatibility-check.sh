@@ -34,7 +34,7 @@ ALL_VERSIONS=(
   "510.0.3"
   "600.0.0"
   "600.0.1"
-  "601.0.0"
+#  "601.0.0" Apple has forgoten to add SwiftSyntax601 marker module to this version...
   "601.0.1"
 )
 
@@ -43,7 +43,7 @@ MAJOR_VERSIONS=(
   "509.0.0"
   "510.0.0"
   "600.0.0"
-  "601.0.0"
+  "601.0.1" # Apple has forgoten to add SwiftSyntax601 marker module to the 601.0.0 version...
 )
 
 # Choose which versions to use based on input
