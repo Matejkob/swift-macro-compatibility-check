@@ -30,12 +30,12 @@ jobs:
         # Read current versions from script
         CURRENT_VERSIONS=$(grep -A 20 "ALL_VERSIONS=(" swift-macro-compatibility-check.sh | grep -o '"[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*"' | tr -d '"' | sort -V)
         
-        # Find new versions (only versions >= 509.0.0)
+        # Find new versions (only versions >= 509.0.0, excluding 601.0.0)
         NEW_VERSIONS=""
         for version in $OFFICIAL_RELEASES; do
           if ! echo "$CURRENT_VERSIONS" | grep -q "^$version$"; then
-            # Double-check version is >= 509.0.0
-            if echo "$version" | awk -F. '$1 >= 509 { exit 0 } { exit 1 }'; then
+            # Double-check version is >= 509.0.0 and not 601.0.0 (Apple forgot SwiftSyntax601 marker module)
+            if echo "$version" | awk -F. '$1 >= 509 { exit 0 } { exit 1 }' && [ "$version" != "601.0.0" ]; then
               NEW_VERSIONS="$NEW_VERSIONS $version"
             fi
           fi
