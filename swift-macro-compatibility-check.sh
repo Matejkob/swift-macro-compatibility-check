@@ -131,6 +131,8 @@ for version in "${VERSIONS[@]}"; do
   else
     echo -e "${RED}Compatibility check failed for swift-syntax $version${NC}"
   fi
+  
+  swift package clean
 done
 
 # Summary of results
