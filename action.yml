@@ -31,6 +31,9 @@ runs:
 
         echo "TOOLCHAINS=$(plutil -extract 'CFBundleIdentifier' xml1 ${HOME}/Library/Developer/Toolchains/swift-6.1.2-RELEASE.xctoolchain/Info.plist | xmllint --xpath '//plist/string/text()' -)" >> $GITHUB_ENV
       shell: bash
+
+    - name: Swift Version
+        run: swift --version
     
     - name: Run Swift Macro Compatibility Check Script
       shell: bash
