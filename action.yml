@@ -21,11 +21,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Setup Swift
-      uses: swift-actions/setup-swift@v2
-      with:
-        swift-version: "6.1"
-    
     - name: Run Swift Macro Compatibility Check Script
       shell: bash
       run: |
