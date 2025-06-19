@@ -21,10 +21,16 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Setup Swift
-      uses: swift-actions/setup-swift@v2
-      with:
-        swift-version: "6.1"
+    - name: Install Swift 6.1.2
+      if: runner.os == 'macOS'
+      run: |
+        curl -sOL https://download.swift.org/swift-6.1.2-release/xcode/swift-6.1.2-RELEASE/swift-6.1.2-RELEASE-osx.pkg
+        xattr -dr com.apple.quarantine swift-6.1.2-RELEASE-osx.pkg
+        installer -pkg swift-6.1.2-RELEASE-osx.pkg -target CurrentUserHomeDirectory
+        rm -f swift-6.1.2-RELEASE-osx.pkg
+
+        echo "TOOLCHAINS=$(plutil -extract 'CFBundleIdentifier' xml1 ${HOME}/Library/Developer/Toolchains/swift-6.1.2-RELEASE.xctoolchain/Info.plist | xmllint --xpath '//plist/string/text()' -)" >> $GITHUB_ENV
+      shell: bash
     
     - name: Run Swift Macro Compatibility Check Script
       shell: bash
